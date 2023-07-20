@@ -17,7 +17,7 @@ func main() {
 	defer listener.Close()
 
 	// Handle incoming client connections
-	log.Println("Server listening on :8080")
+	log.Println("Server starting to listen on :8080")
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -43,7 +43,7 @@ func handleRequest(conn net.Conn) {
 		log.Println("Received request from shadow:", request)
 
 		// Send response back to the client
-		response := "Hello from tcp-proxy"
+		response := "Message Received"
 		conn.Write([]byte(response))
 
 		// Clear the buffer
