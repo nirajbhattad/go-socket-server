@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net"
 )
 
@@ -14,13 +15,13 @@ func main() {
 		return
 	}
 	defer listener.Close()
-	fmt.Println("Server listening on :8080")
 
 	// Handle incoming client connections
+	log.Println("Server listening on :8080")
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			fmt.Println("Error accepting connection:", err.Error())
+			log.Println("Error accepting connection:", err.Error())
 			return
 		}
 		go handleRequest(conn)
@@ -33,16 +34,16 @@ func handleRequest(conn net.Conn) {
 		// Read client request
 		bytesRead, err := conn.Read(buffer)
 		if err != nil {
-			fmt.Println("Error reading:", err.Error())
+			fmt.Println("Error reading message from shadow:", err.Error())
 			break
 		}
 
 		// Process client request
 		request := string(buffer[:bytesRead])
-		fmt.Println("Received request:", request)
+		log.Println("Received request from shadow:", request)
 
 		// Send response back to the client
-		response := "Hello from server"
+		response := "Hello from tcp-proxy"
 		conn.Write([]byte(response))
 
 		// Clear the buffer
